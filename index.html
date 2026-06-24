@@ -228,7 +228,16 @@ h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;
 </div>
 
 <!-- HOW TO USE ON ANDROID -->
-
+<div class="howto" id="howtoBox">
+  <div class="howto-title">📱 How to use this on Android</div>
+  <div class="howto-steps">
+    <div class="howto-step"><div class="num">1</div><span>Open this file in <strong>Chrome</strong> on your Android phone.</span></div>
+    <div class="howto-step"><div class="num">2</div><span>Tap the <strong>⋮ menu → "Add to Home screen"</strong> — it installs like an app with your progress saved.</span></div>
+    <div class="howto-step"><div class="num">3</div><span>Tap any <strong>phase header</strong> to expand it. Tap a <strong>checkbox</strong> to mark it done.</span></div>
+    <div class="howto-step"><div class="num">4</div><span>Tap <strong>"Resources ▾"</strong> under any item to see the link and exactly how to use it.</span></div>
+    <div class="howto-step"><div class="num">5</div><span>Your progress <strong>saves automatically</strong> — it's still there when you come back.</span></div>
+  </div>
+</div>
 
 <!-- RANK CARD -->
 <div class="rank-card">
@@ -496,8 +505,8 @@ const DATA=[
 ];
 
 const SK="cyberpath-v2";
-async function load(){try{const r=await window.storage.get(SK,false);return r?JSON.parse(r.value):{}}catch{return {}}}
-async function save(s){try{await window.storage.set(SK,JSON.stringify(s),false)}catch(e){console.error(e)}}
+function load(){try{const r=localStorage.getItem(SK);return r?JSON.parse(r):{}}catch{return {}}}
+function save(s){try{localStorage.setItem(SK,JSON.stringify(s))}catch(e){console.error(e)}}
 let ST={};
 
 function totalItems(){return DATA.reduce((a,p)=>a+p.items.length,0);}
@@ -593,33 +602,32 @@ window.toggleRes=toggleRes;
 
 function attachHandlers(){
   document.querySelectorAll(".phase-head").forEach(h=>{
-    h.onclick=async()=>{
+    h.onclick=()=>{
       const pid=h.getAttribute("data-pid");
       const k="_open_"+pid;
       ST[k]=!ST[k];
-      await save(ST);
+      save(ST);
       render();
-      // small delay then scroll phase into view
       const ph=h.closest(".phase");
       if(ST[k]&&ph) setTimeout(()=>ph.scrollIntoView({behavior:"smooth",block:"nearest"}),350);
     };
   });
   document.querySelectorAll(".item").forEach(it=>{
-    it.onclick=async(e)=>{
+    it.onclick=(e)=>{
       if(e.target.closest("a")||e.target.closest(".res-toggle")||e.target.closest(".res-list"))return;
       const k=it.getAttribute("data-key");
       ST[k]=!ST[k];
-      await save(ST);
+      save(ST);
       render();
     };
   });
 }
 
-document.getElementById("resetBtn").onclick=async()=>{
-  if(confirm("Reset all progress? This can't be undone.")){ST={};await save(ST);render();}
+document.getElementById("resetBtn").onclick=()=>{
+  if(confirm("Reset all progress? This can't be undone.")){ST={};save(ST);render();}
 };
 
-(async()=>{ST=await load();render();})();
+ST=load();render();
 </script>
 </body>
 </html>
