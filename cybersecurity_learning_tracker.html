@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#0d141e">
+<title>Cybersecurity Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0d141e; --panel:#162030; --panel2:#1d2d3f;
+  --line:#253447; --text:#eef2f7; --dim:#7a9ab5;
+  --teal:#4dbfae; --amber:#e3a857; --red:#d05f5f;
+  --r:12px; --tap:52px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);
+  font-family:'Inter',sans-serif;-webkit-font-smoothing:antialiased;overscroll-behavior:none;}
+
+/* ── STICKY TOP BAR ── */
+.topbar{
+  position:sticky;top:0;z-index:99;
+  background:rgba(13,20,30,.92);
+  backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+  padding: env(safe-area-inset-top,0) 16px 0;
+}
+.topbar-inner{display:flex;align-items:center;gap:12px;height:56px;}
+.logo{
+  font-family:'JetBrains Mono',monospace;font-size:11px;
+  color:var(--teal);letter-spacing:1.5px;text-transform:uppercase;flex:1;
+}
+.pct-pill{
+  font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:600;
+  background:var(--panel2);border:1px solid var(--line);
+  padding:5px 12px;border-radius:20px;white-space:nowrap;
+}
+.pct-pill span{color:var(--teal);}
+
+/* ── PROGRESS SEGS ── */
+.segbar{display:flex;gap:3px;height:4px;padding:0 16px 10px;}
+.seg{flex:1;background:var(--panel2);border-radius:2px;overflow:hidden;}
+.seg-fill{height:100%;background:var(--teal);border-radius:2px;width:0%;transition:width .4s;}
+
+/* ── HERO ── */
+.hero{padding:24px 16px 16px;}
+.eyebrow{font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--teal);letter-spacing:2px;text-transform:uppercase;margin-bottom:8px;}
+h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;
+  margin:0 0 8px;line-height:1.2;letter-spacing:-.3px;}
+.sub{color:var(--dim);font-size:13.5px;line-height:1.6;margin:0;}
+
+/* ── HOW TO USE BANNER ── */
+.howto{
+  margin:12px 16px 0;
+  background:var(--panel);border:1px solid var(--line);
+  border-radius:var(--r);padding:14px 16px;
+}
+.howto-title{font-family:'Space Grotesk',sans-serif;font-size:13px;font-weight:600;
+  color:var(--amber);margin-bottom:8px;}
+.howto-steps{display:flex;flex-direction:column;gap:6px;}
+.howto-step{font-size:12.5px;color:var(--dim);display:flex;gap:10px;align-items:flex-start;}
+.howto-step .num{
+  flex-shrink:0;width:20px;height:20px;border-radius:50%;
+  background:var(--panel2);border:1px solid var(--line);
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  display:flex;align-items:center;justify-content:center;color:var(--amber);
+}
+
+/* ── RANK CARD ── */
+.rank-card{
+  margin:16px 16px 0;
+  background:linear-gradient(135deg,var(--panel) 0%,#0d1f30 100%);
+  border:1px solid var(--line);border-radius:var(--r);
+  padding:16px;display:flex;align-items:center;gap:14px;
+}
+.rank-badge{
+  width:52px;height:52px;border-radius:50%;
+  border:2px solid var(--amber);
+  display:flex;align-items:center;justify-content:center;
+  font-size:22px;flex-shrink:0;
+}
+.rank-info{flex:1;}
+.rank-label{font-family:'JetBrains Mono',monospace;font-size:9.5px;
+  color:var(--dim);letter-spacing:1px;text-transform:uppercase;margin-bottom:2px;}
+.rank-name{font-family:'Space Grotesk',sans-serif;font-size:18px;font-weight:700;color:var(--amber);}
+.rank-sub{font-size:11.5px;color:var(--dim);margin-top:2px;}
+
+/* ── SECTION LABEL ── */
+.section-label{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  color:var(--dim);letter-spacing:1.5px;text-transform:uppercase;
+  padding:20px 16px 8px;
+}
+
+/* ── PHASE CARD ── */
+.phase{margin:0 12px 10px;border:1px solid var(--line);border-radius:var(--r);
+  background:var(--panel);overflow:hidden;}
+.phase-head{
+  display:flex;align-items:center;gap:12px;
+  padding:0 14px;min-height:var(--tap);
+  cursor:pointer;user-select:none;
+  -webkit-user-select:none;
+  background:none;border:none;width:100%;text-align:left;color:inherit;
+}
+.phase-num{
+  width:30px;height:30px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+  font-family:'JetBrains Mono',monospace;font-size:11px;font-weight:600;
+  background:var(--panel2);border:1px solid var(--line);color:var(--dim);
+  transition:all .25s;
+}
+.phase.done .phase-num{background:var(--teal);border-color:var(--teal);color:#0d141e;}
+.phase-titles{flex:1;min-width:0;padding:14px 0;}
+.phase-title{font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:600;line-height:1.3;}
+.phase-desc{color:var(--dim);font-size:11.5px;margin-top:2px;line-height:1.4;}
+.phase-badge{
+  font-family:'JetBrains Mono',monospace;font-size:10px;
+  background:var(--panel2);border:1px solid var(--line);
+  padding:4px 8px;border-radius:10px;white-space:nowrap;color:var(--dim);
+  flex-shrink:0;
+}
+.phase.done .phase-badge{border-color:var(--teal);color:var(--teal);}
+.chev{flex-shrink:0;transition:transform .25s;color:var(--dim);margin-left:4px;}
+.phase.open .chev{transform:rotate(180deg);}
+
+/* ── PHASE BODY ── */
+.phase-body{max-height:0;overflow:hidden;transition:max-height .4s ease;
+  border-top:1px solid transparent;}
+.phase.open .phase-body{border-top:1px solid var(--line);}
+
+/* ── ITEM ── */
+.item{
+  border-bottom:1px solid var(--line);
+  padding:14px 14px 14px 14px;
+  display:flex;gap:12px;align-items:flex-start;
+}
+.item:last-child{border-bottom:none;}
+.item-check{
+  width:24px;height:24px;min-width:24px;border-radius:6px;
+  border:1.5px solid var(--line);
+  display:flex;align-items:center;justify-content:center;
+  cursor:pointer;transition:all .15s;margin-top:1px;
+  background:var(--panel2);
+}
+.item-check.ck{background:var(--teal);border-color:var(--teal);}
+.item-check svg{width:13px;height:13px;opacity:0;}
+.item-check.ck svg{opacity:1;}
+.item-body{flex:1;min-width:0;}
+.item-title{font-size:14px;line-height:1.45;cursor:pointer;}
+.item.ck .item-title{color:var(--dim);text-decoration:line-through;text-decoration-color:var(--line);}
+.item-note{font-size:12px;color:var(--dim);margin-top:4px;line-height:1.5;}
+
+/* ── RESOURCES ── */
+.res-toggle{
+  display:inline-flex;align-items:center;gap:5px;
+  margin-top:8px;padding:5px 10px;
+  background:var(--panel2);border:1px solid var(--line);
+  border-radius:8px;cursor:pointer;
+  font-size:11.5px;color:var(--amber);font-family:'JetBrains Mono',monospace;
+  user-select:none;-webkit-user-select:none;
+}
+.res-list{
+  display:none;flex-direction:column;gap:6px;margin-top:8px;
+  padding:10px 12px;background:rgba(13,20,30,.6);
+  border:1px solid var(--line);border-radius:8px;
+}
+.res-list.open{display:flex;}
+.res-item{display:flex;flex-direction:column;gap:2px;}
+.res-link{
+  display:flex;align-items:flex-start;gap:7px;
+  font-size:12.5px;color:var(--teal);text-decoration:none;word-break:break-word;
+  padding:2px 0;
+}
+.res-link:active{opacity:.7;}
+.res-link svg{flex-shrink:0;margin-top:2px;}
+.res-how{font-size:11.5px;color:var(--dim);padding-left:20px;line-height:1.4;}
+
+/* ── FOOTER ── */
+.footer{
+  margin:16px 12px 0;
+  padding:14px 16px calc(16px + env(safe-area-inset-bottom,0));
+  border-top:1px solid var(--line);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:10px;
+}
+.footer-note{font-size:11.5px;color:var(--dim);}
+.reset-btn{
+  background:none;border:1px solid var(--line);
+  color:var(--dim);font-family:'JetBrains Mono',monospace;font-size:11px;
+  padding:8px 14px;border-radius:8px;cursor:pointer;
+  min-height:var(--tap);display:flex;align-items:center;
+}
+.reset-btn:active{border-color:var(--red);color:var(--red);}
+
+/* ── MOBILE ADD TO HOME ── */
+.a2hs{
+  display:none;
+  margin:16px 12px 0;padding:12px 14px;
+  background:var(--panel);border:1px solid var(--amber);border-radius:var(--r);
+  font-size:12.5px;color:var(--dim);line-height:1.5;
+}
+.a2hs strong{color:var(--amber);}
+.a2hs-close{float:right;background:none;border:none;color:var(--dim);
+  font-size:18px;cursor:pointer;padding:0 0 0 8px;line-height:1;}
+@media(max-width:600px){.a2hs{display:block;}}
+.spacer{height:32px;}
+</style>
+</head>
+<body>
+
+<!-- STICKY TOP BAR -->
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="logo">🔐 CyberPath</div>
+    <div class="pct-pill"><span id="pctNum">0</span>% complete</div>
+  </div>
+  <div class="segbar" id="segBar"></div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="eyebrow">Industry Standard · 2026 · SWE Background</div>
+  <h1>Software Engineer → Security Professional</h1>
+  <p class="sub">Grounded in OWASP Top 10:2025, CompTIA Security+ SY0-701, and the tool stack employers actually test for. Every item has a specific resource and link — tap "Resources" to expand them.</p>
+</div>
+
+<!-- HOW TO USE ON ANDROID -->
+<div class="howto" id="howtoBox">
+  <div class="howto-title">📱 How to use this on Android</div>
+  <div class="howto-steps">
+    <div class="howto-step"><div class="num">1</div><span>Open this file in <strong>Chrome</strong> on your Android phone.</span></div>
+    <div class="howto-step"><div class="num">2</div><span>Tap the <strong>⋮ menu → "Add to Home screen"</strong> — it installs like an app with your progress saved.</span></div>
+    <div class="howto-step"><div class="num">3</div><span>Tap any <strong>phase header</strong> to expand it. Tap a <strong>checkbox</strong> to mark it done.</span></div>
+    <div class="howto-step"><div class="num">4</div><span>Tap <strong>"Resources ▾"</strong> under any item to see the link and exactly how to use it.</span></div>
+    <div class="howto-step"><div class="num">5</div><span>Your progress <strong>saves automatically</strong> — it's still there when you come back.</span></div>
+  </div>
+</div>
+
+<!-- RANK CARD -->
+<div class="rank-card">
+  <div class="rank-badge" id="rankEmoji">🪖</div>
+  <div class="rank-info">
+    <div class="rank-label">Current rank</div>
+    <div class="rank-name" id="rankName">Recruit</div>
+    <div class="rank-sub" id="rankSub">0 items complete — keep going</div>
+  </div>
+</div>
+
+<div class="section-label">8 PHASES · ~55 ITEMS</div>
+
+<div id="phases"></div>
+
+<div class="footer">
+  <span class="footer-note">Progress saved privately to this device.</span>
+  <button class="reset-btn" id="resetBtn">Reset all progress</button>
+</div>
+<div class="spacer"></div>
+
+<script>
+const RANKS=[
+  {n:"Recruit",e:"🪖",t:"0 items — keep going"},
+  {n:"Analyst Trainee",e:"🔍",t:"Building the foundation"},
+  {n:"Junior Analyst",e:"🛡️",t:"You're making real progress"},
+  {n:"Security Analyst",e:"⚔️",t:"Mid-path — solid skills"},
+  {n:"Senior Analyst",e:"🧠",t:"Advanced territory"},
+  {n:"Specialist",e:"🔐",t:"Near the top"},
+  {n:"Security Operator",e:"💀",t:"Full-spectrum practitioner"}
+];
+
+// LINK ICON SVG
+const linkSvg=`<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>`;
+const checkSvg=`<svg viewBox="0 0 24 24" fill="none" stroke="#0d141e" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+const chevSvg=`<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>`;
+
+const DATA=[
+{id:"p1",title:"Foundations & Orientation",desc:"Vocabulary, mental models, and choosing your lane.",items:[
+  {t:"CIA triad, AAA model, defense-in-depth",n:"Confidentiality / Integrity / Availability + Authentication / Authorization / Accounting.",res:[
+    {l:"NIST Glossary of Key Information Security Terms",u:"https://csrc.nist.gov/publications/detail/nistir/7298/rev-3/final",h:"Browse the definitions section — use Ctrl+F to jump to CIA, AAA, and defense-in-depth."}
+  ]},
+  {t:"Threat modeling with STRIDE",n:"Apply it to one app you've built before — Spoofing, Tampering, Repudiation, Info Disclosure, DoS, Elevation of Privilege.",res:[
+    {l:"OWASP Threat Modeling Cheat Sheet",u:"https://cheatsheetseries.owasp.org/cheatsheets/Threat_Modeling_Cheat_Sheet.html",h:"Read the STRIDE section, then pick one of your own apps and fill in the threat table for it."},
+    {l:"Microsoft Threat Modeling Tool (free)",u:"https://learn.microsoft.com/en-us/azure/security/develop/threat-modeling-tool",h:"Download and diagram one service — even a single API — to get the hands-on feel."}
+  ]},
+  {t:"Risk vocabulary: threat vs vulnerability vs exploit vs risk",n:"",res:[
+    {l:"NIST SP 800-30 — Guide for Conducting Risk Assessments",u:"https://csrc.nist.gov/publications/detail/sp/800-30/rev-1/final",h:"Read the Glossary appendix and Section 2 only — skip the full risk assessment process for now."}
+  ]},
+  {t:"Networking refresher: OSI/TCP-IP, subnetting, common ports",n:"If your networking is rusty, do a fast pass here before hitting packet analysis.",res:[
+    {l:"Professor Messer — free Network+ course (YouTube)",u:"https://www.youtube.com/playlist?list=PLG49S3nxzAnlCJiCrqa31IjVcl-D8wr6n",h:"Watch at 1.5x. Focus on OSI layers 3-7, TCP vs UDP, and the 'Ports and Protocols' video specifically."},
+    {l:"Subnet practice — Subnetting.net",u:"https://subnetting.net/",h:"Do 10 random subnet questions until you can do /24 to /28 splits in your head."}
+  ]},
+  {t:"Linux command-line fluency",n:"You'll use this in every single subsequent phase.",res:[
+    {l:"OverTheWire: Bandit (free, 34 levels)",u:"https://overthewire.org/wargames/bandit/",h:"Play in your browser via SSH or a terminal app (JuiceSSH on Android). Complete level 0 → 15 as a baseline before moving on."},
+    {l:"TryHackMe — Linux Fundamentals (free rooms)",u:"https://tryhackme.com/module/linux-fundamentals",h:"Create a free account, open on mobile browser, and work through Part 1–3. Each room runs in-browser with no install needed."}
+  ]}
+]},
+
+{id:"p2",title:"CompTIA Security+ SY0-701",desc:"The credential in the majority of entry-level postings. Active version as of 2026.",items:[
+  {t:"Domain 1: General Security Concepts (12%)",n:"Control types, cryptography basics, change management.",res:[
+    {l:"Professor Messer's SY0-701 course — free on YouTube",u:"https://www.youtube.com/playlist?list=PLG49S3nxzAnl4QDVqK-hOnoqcSKEIDDuv",h:"Watch the 'General Security Concepts' playlist section. Use the chapter markers. Take notes on control types (preventive / detective / corrective / compensating)."},
+    {l:"Official SY0-701 Exam Objectives PDF — CompTIA",u:"https://comptia-certifications-resources.s3.amazonaws.com/SY0-701-Exam-Objectives.pdf",h:"Print or save this. Use it as your master checklist — tick off objectives as you cover them in Messer's videos."}
+  ]},
+  {t:"Domain 2: Threats, Vulnerabilities & Mitigations (22% — highest weight)",n:"Malware types, social engineering, app/cloud vulnerabilities, hardening.",res:[
+    {l:"Professor Messer SY0-701 — Threats & Vulnerabilities section",u:"https://www.professormesser.com/security-plus/sy0-701/sy0-701-video/sy0-701-training-course/",h:"This is the most heavily tested domain. Pay particular attention to phishing variations and application vulnerability categories."},
+    {l:"Jason Dion — Udemy Security+ SY0-701 (buy on sale, ~$15)",u:"https://www.udemy.com/course/securityplus/",h:"Use as a second pass after Messer. Dion's scenario questions match the PBQ style of the real exam better than most free resources."}
+  ]},
+  {t:"Domain 3: Security Architecture (18%)",n:"Zero trust, network segmentation, cloud vs. on-prem, SASE.",res:[
+    {l:"NIST SP 800-207 — Zero Trust Architecture",u:"https://csrc.nist.gov/publications/detail/sp/800-207/final",h:"Read Section 2 (Zero Trust Basics) and the 3 deployment model descriptions — skip the full annexes for now."}
+  ]},
+  {t:"Domain 4: Security Operations (28% — largest domain)",n:"Incident response, SIEM/SOAR, vulnerability management, log analysis.",res:[
+    {l:"TryHackMe — SOC Level 1 path (free tier available)",u:"https://tryhackme.com/path/outline/soclevel1",h:"Work through this alongside the Security+ domain. The hands-on log/SIEM labs will reinforce the theory better than flashcards."},
+    {l:"NIST SP 800-61 — Incident Response Guide",u:"https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final",h:"Read Sections 2 and 3. The 4-phase IR lifecycle (Prepare → Detect → Contain → Recover) is directly tested on the exam."}
+  ]},
+  {t:"Domain 5: Security Program Management & Oversight (20%)",n:"Governance, risk, third-party risk, compliance, audit.",res:[
+    {l:"NIST Cybersecurity Framework (CSF) 2.0",u:"https://www.nist.gov/cyberframework",h:"Read the 'Core' summary page. Understand the 6 functions: Govern, Identify, Protect, Detect, Respond, Recover."}
+  ]},
+  {t:"Practice exams — simulate the real exam environment",n:"Score 85%+ consistently before booking the real exam.",res:[
+    {l:"Jason Dion — Security+ Practice Exams on Udemy",u:"https://www.udemy.com/course/comptia-security-practice-exams/",h:"Take one full 90-question timed exam per session. Review every wrong answer — don't re-read the material, just the specific question's explanation."},
+    {l:"CompTIA CertMaster Practice (official)",u:"https://www.comptia.org/training/certmaster-practice/security",h:"The adaptive engine identifies weak domains automatically. Use it in the final 2 weeks before your exam date."}
+  ]},
+  {t:"Book and sit the exam",n:"90 minutes, up to 90 questions, pass score 750/900.",res:[
+    {l:"Pearson VUE — schedule your Security+ exam",u:"https://home.pearsonvue.com/comptia",h:"Book online-proctored if you want to sit from home. Have your government ID ready. Exam code: SY0-701. Cost: ~$404 USD."}
+  ]}
+]},
+
+{id:"p3",title:"Networking & Systems Security",desc:"Where most real-world footholds and lateral movement happen.",items:[
+  {t:"Packet capture & traffic analysis",n:"Understand what normal traffic looks like before you hunt for anomalies.",res:[
+    {l:"Wireshark official tutorial — Wireshark.org",u:"https://www.wireshark.org/docs/wsug_html_chunked/",h:"Install Wireshark on your laptop. Capture your own home network traffic for 5 minutes and identify: DNS queries, TCP handshakes, and any cleartext HTTP."},
+    {l:"TryHackMe — Wireshark: The Basics (free room)",u:"https://tryhackme.com/room/wiresharkthebasics",h:"Complete this room entirely in-browser. No install required on mobile."}
+  ]},
+  {t:"TLS/HTTPS handshake and PKI in depth",n:"Know what a cert actually verifies and where MITM attacks can break it.",res:[
+    {l:"Cloudflare — What happens in a TLS handshake?",u:"https://www.cloudflare.com/learning/ssl/what-happens-in-a-tls-handshake/",h:"Read the full article, then open your bank's site in Chrome, tap the padlock → Certificate, and trace what you just read to the real cert."},
+    {l:"BadSSL.com — test broken TLS configurations",u:"https://badssl.com/",h:"Open each example (expired, self-signed, wrong-host) in Chrome on your phone and observe the exact error messages — these are what you'll see in the field."}
+  ]},
+  {t:"Linux privilege escalation patterns",n:"SUID abuse, cron jobs, writable paths, kernel exploits.",res:[
+    {l:"TryHackMe — Linux PrivEsc (free room)",u:"https://tryhackme.com/room/linprivesc",h:"Work through every section — the room walks you through each technique with a live VM in-browser."},
+    {l:"GTFOBins — Unix binaries for privilege escalation",u:"https://gtfobins.github.io/",h:"Bookmark this. When you find a SUID binary, look it up here to see if it can be abused. Use the search bar."},
+    {l:"LinPEAS (script for automated enumeration)",u:"https://github.com/peass-ng/PEASS-ng/tree/master/linPEAS",h:"Run it on a practice VM (TryHackMe or HTB). Read the output colour-coding: red = critical finding, yellow = worth investigating."}
+  ]},
+  {t:"Windows & Active Directory fundamentals",n:"Registry, services, Group Policy, domain trust relationships.",res:[
+    {l:"TryHackMe — Active Directory Basics (free room)",u:"https://tryhackme.com/room/winadbasics",h:"Complete in-browser. Focus on: what a domain controller does, what Kerberos is, and the difference between users/groups/OUs."},
+    {l:"HTB Academy — Windows Fundamentals (free module)",u:"https://academy.hackthebox.com/module/details/49",h:"Create a free HTB Academy account. This module is free tier. Complete all sections — the Windows registry and service sections are most exam-relevant."}
+  ]},
+  {t:"Windows privilege escalation patterns",n:"Unquoted service paths, weak permissions, token abuse.",res:[
+    {l:"TryHackMe — Windows PrivEsc (free room)",u:"https://tryhackme.com/room/windows10privesc",h:"Work through each technique with the live lab VM provided in the room. WinPEAS output will be your main guide on real engagements."},
+    {l:"WinPEAS — Windows privilege escalation script",u:"https://github.com/peass-ng/PEASS-ng/tree/master/winPEAS",h:"Run winpeas.exe on a practice Windows VM. The output is colour-coded the same way as LinPEAS."}
+  ]},
+  {t:"Where logs and evidence live on each OS",n:"You'll use this directly in incident response and blue team work.",res:[
+    {l:"SANS — Windows Log Cheat Sheet",u:"https://www.sans.org/posters/windows-log-cheat-sheet/",h:"Download and save. Key events to know: 4624 (logon), 4625 (failed logon), 4688 (process creation), 7045 (service install)."},
+    {l:"Linux logging — /var/log walkthrough (DigitalOcean)",u:"https://www.digitalocean.com/community/tutorials/how-to-view-and-configure-linux-logs-on-ubuntu-and-centos",h:"Open a TryHackMe Linux room and navigate the log locations described in this article to see real examples."}
+  ]}
+]},
+
+{id:"p4",title:"Web Application Security — OWASP Top 10:2025",desc:"Mapped to the current OWASP list (released Jan 2026). The 2025 edition added 2 new categories and reranked significantly.",items:[
+  {t:"A01:2025 — Broken Access Control (incl. SSRF, now merged in)",n:"#1 risk — IDOR, missing function-level access, path traversal.",res:[
+    {l:"PortSwigger Web Security Academy — Access Control labs",u:"https://portswigger.net/web-security/access-control",h:"This is the industry-standard free training resource. Complete the 'Access control vulnerabilities' learning path — every lab runs in-browser, no setup needed."},
+    {l:"OWASP A01:2025 official description",u:"https://owasp.org/Top10/2025/A01_2025-Broken_Access_Control/",h:"Read this first for context, then go to PortSwigger labs to practice the actual exploitation."}
+  ]},
+  {t:"A02:2025 — Security Misconfiguration",n:"Jumped from #5 to #2 — biggest mover in the 2025 list. Cloud buckets, exposed error pages, default creds.",res:[
+    {l:"PortSwigger — Information disclosure labs",u:"https://portswigger.net/web-security/information-disclosure",h:"Information leakage is the most common symptom of misconfiguration. Complete the 3 apprentice-level labs first."},
+    {l:"OWASP A02:2025 official description",u:"https://owasp.org/Top10/2025/A02_2025-Security_Misconfiguration/",h:"Pay special attention to the cloud storage misconfiguration examples — they're the most tested in job interviews."}
+  ]},
+  {t:"A03:2025 — Software Supply Chain Failures (NEW category)",n:"Compromised packages, malicious updates, CI/CD pipeline weaknesses. Highest incidence rate on the new list (5.19%).",res:[
+    {l:"OWASP A03:2025 official description",u:"https://owasp.org/Top10/2025/A03_2025-Software_Supply_Chain_Failures/",h:"Read the examples section. The Log4Shell and SolarWinds incidents are the canonical real-world cases."},
+    {l:"SLSA supply chain security framework",u:"https://slsa.dev/",h:"Read the 'Levels' page to understand how the industry is trying to solve this problem systematically."}
+  ]},
+  {t:"A04:2025 — Cryptographic Failures",n:"Weak algorithms, missing encryption in transit/at rest, hardcoded secrets.",res:[
+    {l:"PortSwigger — Cryptography labs",u:"https://portswigger.net/web-security/jwt",h:"Start with the JWT attacks section — they're common in modern apps and you almost certainly encountered JWTs as a developer."},
+    {l:"Cryptohack.org — hands-on cryptography challenges",u:"https://cryptohack.org/",h:"Create a free account. Complete the 'Introduction' track. Cryptohack teaches crypto weaknesses by making you exploit them."}
+  ]},
+  {t:"A05:2025 — Injection (SQLi, XSS, Command Injection)",n:"Down from #3 to #5 but still the most-tested category in interviews.",res:[
+    {l:"PortSwigger — SQL Injection learning path",u:"https://portswigger.net/web-security/sql-injection",h:"Complete all apprentice + practitioner SQL injection labs. The 'UNION attack' labs are the most interview-relevant."},
+    {l:"PortSwigger — Cross-Site Scripting (XSS) learning path",u:"https://portswigger.net/web-security/cross-site-scripting",h:"Complete the reflected XSS labs first, then stored XSS. These take 30 min each in-browser."}
+  ]},
+  {t:"A06–A10:2025 — Remaining 5 categories",n:"Insecure Design (A06), Authentication Failures (A07), Software & Data Integrity Failures (A08), Logging & Alerting Failures (A09), Mishandling of Exceptional Conditions (A10 — NEW).",res:[
+    {l:"OWASP Top 10:2025 — full list",u:"https://owasp.org/Top10/2025/",h:"Read each category page in order. Focus extra time on A07 (authentication) since it maps directly to bugs that real codebases ship."},
+    {l:"PortSwigger — Authentication labs",u:"https://portswigger.net/web-security/authentication",h:"Complete the 'Username enumeration via different responses' and 'Password brute-force via password change' labs — both are free tier."}
+  ]},
+  {t:"Hands-on practice against vulnerable apps",n:"Put OWASP categories into practice with deliberately broken applications.",res:[
+    {l:"PortSwigger Web Security Academy — full learning path",u:"https://portswigger.net/web-security/learning-paths",h:"This is the single best free AppSec training resource. Use it systematically — follow the learning paths rather than picking random labs."},
+    {l:"OWASP Juice Shop (hosted version)",u:"https://juice-shop.herokuapp.com/",h:"Open in your Android Chrome browser. Start with the Score Board (/#/score-board) and try the 1-star challenges first. No install needed."},
+    {l:"DVWA — Damn Vulnerable Web App",u:"https://dvwa.co.uk/",h:"Best run locally (Docker), but the TryHackMe 'DVWA' room lets you access it in-browser without any setup."}
+  ]},
+  {t:"Intercepting proxy workflow with Burp Suite",n:"Intercepting, replaying, and modifying HTTP requests — a daily tool for web testers.",res:[
+    {l:"Burp Suite Community Edition (free, desktop)",u:"https://portswigger.net/burp/communitydownload",h:"Install on your laptop (not mobile — needs a desktop). Follow the 'Getting started' guide in PortSwigger's Academy to configure your browser proxy. You'll use this for all PortSwigger labs."},
+    {l:"PortSwigger — Burp Suite essentials (free course)",u:"https://portswigger.net/burp/documentation/desktop/getting-started",h:"Complete the 'Intercepting HTTP traffic' walkthrough first — 20 minutes and you'll be productive."}
+  ]},
+  {t:"OWASP API Security Top 10",n:"Separate list from the web app Top 10 — covers BOLA, broken function-level auth, etc.",res:[
+    {l:"OWASP API Security Top 10",u:"https://owasp.org/www-project-api-security/",h:"Read each category. BOLA (Broken Object Level Authorization) is the most exploited API flaw — compare it to IDOR in the web app list."},
+    {l:"TryHackMe — OWASP API Security Top 10 rooms",u:"https://tryhackme.com/room/owaspapisecuritytop105w",h:"Hands-on practice covering the API-specific attack patterns."}
+  ]}
+]},
+
+{id:"p5",title:"Offensive Security Methodology",desc:"Recon through reporting — the full shape of a pentest engagement.",items:[
+  {t:"Pentest methodology and rules of engagement",n:"You need a framework before you pick up tools.",res:[
+    {l:"PTES — Penetration Testing Execution Standard",u:"http://www.pentest-standard.org/index.php/Main_Page",h:"Read the 'Intelligence Gathering' and 'Vulnerability Analysis' sections. This is the industry-standard methodology document."},
+    {l:"OWASP Testing Guide v4.2",u:"https://owasp.org/www-project-web-security-testing-guide/",h:"Bookmark the full guide. Use it as a reference checklist during web app tests — it maps directly to OWASP Top 10 test cases."}
+  ]},
+  {t:"Reconnaissance & enumeration (passive and active)",n:"Know the difference: passive = no target contact, active = touching their systems.",res:[
+    {l:"TryHackMe — Passive Reconnaissance room (free)",u:"https://tryhackme.com/room/passiverecon",h:"Complete in-browser. Focus on WHOIS, DNS enumeration, and Google dorking — tools used before you touch any target."},
+    {l:"TryHackMe — Active Reconnaissance room (free)",u:"https://tryhackme.com/room/activerecon",h:"Covers ping sweeps, port scanning, and Traceroute. Complete this right after the passive recon room."}
+  ]},
+  {t:"Port scanning and service enumeration with Nmap",n:"Learn the NSE scripting engine — it's what separates basic scans from real intel gathering.",res:[
+    {l:"Nmap reference guide — official",u:"https://nmap.org/book/man.html",h:"Read the 'Port Scanning Basics', 'Output Formats', and 'Nmap Scripting Engine' sections. Use Ctrl+F — don't read linearly."},
+    {l:"TryHackMe — Nmap room (free)",u:"https://tryhackme.com/room/furthernmap",h:"Complete the full room in-browser — it walks through every scan type with live targets. Run 'nmap -sC -sV -oN output.txt <IP>' as your standard habit."}
+  ]},
+  {t:"Web vulnerability scanning with Nikto",n:"Automated surface-level scanner — fast first pass for misconfigurations.",res:[
+    {l:"Nikto documentation — GitHub",u:"https://github.com/sullo/nikto/wiki",h:"Run 'nikto -h <target> -o nikto_output.txt' after every Nmap scan. Treat the output as a starting point for manual testing, not a final answer."}
+  ]},
+  {t:"Directory and content discovery",n:"Finding files and endpoints the app doesn't link to publicly.",res:[
+    {l:"ffuf — fast web fuzzer (GitHub)",u:"https://github.com/ffuf/ffuf",h:"Install and run: 'ffuf -w /path/to/wordlist -u https://target/FUZZ'. Use SecLists wordlists (below) for the wordlist argument."},
+    {l:"SecLists — wordlist collection",u:"https://github.com/danielmiessler/SecLists",h:"Clone the repo. Use 'Discovery/Web-Content/common.txt' for directory fuzzing and 'Usernames/top-usernames-shortlist.txt' for username enumeration."}
+  ]},
+  {t:"Exploitation with Metasploit",n:"Understand the framework conceptually before chaining exploits.",res:[
+    {l:"TryHackMe — Metasploit Introduction (free room)",u:"https://tryhackme.com/room/metasploitintro",h:"Complete in-browser. Focus on: msfconsole workflow, search/use/set/run commands, and how payloads differ from exploits."},
+    {l:"HTB Academy — Metasploit Framework module (free)",u:"https://academy.hackthebox.com/module/details/39",h:"More depth than THM. Good to run through after the intro room."}
+  ]},
+  {t:"Guided CTF practice path",n:"This is your main skill-building ground outside of structured course work.",res:[
+    {l:"TryHackMe — Offensive Pentesting path",u:"https://tryhackme.com/path/outline/pentesting",h:"Follow this path in order — it's structured from beginner to intermediate. ~47 hours. Do at least one room per week."},
+    {l:"HackTheBox — Starting Point machines (free)",u:"https://app.hackthebox.com/starting-point",h:"Create a free account. Starting Point gives you guided walkthroughs for real machines. Tier 0 and Tier 1 machines are free."}
+  ]},
+  {t:"Write a professional findings report",n:"This is the actual deliverable — what clients and employers evaluate you on.",res:[
+    {l:"SANS — Penetration Testing Report Template",u:"https://www.sans.org/security-resources/",h:"Download a real-world template. Include: Executive Summary, Scope, Methodology, Findings (with CVSS scores), and Remediation steps for every finding."},
+    {l:"CVSS v3.1 calculator — NIST NVD",u:"https://nvd.nist.gov/vuln-metrics/cvss",h:"Use this to score every finding you report. Paste your vector string and it calculates the score automatically."}
+  ]}
+]},
+
+{id:"p6",title:"Defensive Security & Detection",desc:"The SOC side — the highest-volume entry lane into the industry.",items:[
+  {t:"Log analysis fundamentals",n:"You need a baseline of 'normal' before you can find 'abnormal.'",res:[
+    {l:"TryHackMe — Investigating Windows (free room)",u:"https://tryhackme.com/room/investigatingwindows",h:"Analyze a Windows machine that's been compromised — find the attacker's footprints using only logs and Event Viewer. Great first incident sim."},
+    {l:"SANS — Windows Log Cheat Sheet",u:"https://www.sans.org/posters/windows-log-cheat-sheet/",h:"Download and save. Event IDs to prioritize: 4624, 4625, 4688, 4720, 7045."}
+  ]},
+  {t:"SIEM concepts and hands-on practice",n:"Security Information and Event Management — how SOC teams find threats at scale.",res:[
+    {l:"TryHackMe — Splunk: Basics (free room)",u:"https://tryhackme.com/room/splunk101",h:"Complete in-browser. Focus on SPL query syntax: 'index=* | stats count by sourcetype' and 'search' commands. SPL is what you'll use in 80% of SOC roles."},
+    {l:"Splunk free training — Splunk Fundamentals 1",u:"https://www.splunk.com/en_us/training/free-courses/splunk-fundamentals-1.html",h:"Register for free. 6-hour self-paced course covering dashboards, queries, and alerts. Most SOC job postings list Splunk as required."}
+  ]},
+  {t:"MITRE ATT&CK framework",n:"The shared language that blue and red teams both use to describe attacker behavior.",res:[
+    {l:"MITRE ATT&CK Navigator (interactive)",u:"https://mitre-attack.github.io/attack-navigator/",h:"Open in Chrome on mobile. Explore by threat actor group (e.g. APT29) to see which TTPs they use. This is how defenders build detection rules."},
+    {l:"TryHackMe — MITRE room (free)",u:"https://tryhackme.com/room/mitre",h:"Covers ATT&CK, D3FEND, and MITRE Engage. Complete all sections."}
+  ]},
+  {t:"IDS/IPS — Snort or Suricata",n:"Signature-based detection at the network level.",res:[
+    {l:"TryHackMe — Snort room (free)",u:"https://tryhackme.com/room/snort",h:"Run Snort in the in-browser VM. Write your own basic rule: alert tcp any any -> any 80 (msg:\"HTTP Traffic\"; sid:1000001;)"},
+    {l:"Suricata — official quickstart guide",u:"https://suricata.readthedocs.io/en/latest/quickstart.html",h:"Read the quickstart if you want to run it locally. Most enterprise environments use Suricata now over Snort."}
+  ]},
+  {t:"Incident response lifecycle",n:"Prepare → Detect/Analyze → Contain/Eradicate/Recover → Post-incident (NIST model).",res:[
+    {l:"NIST SP 800-61r2 — Computer Security Incident Handling Guide",u:"https://csrc.nist.gov/publications/detail/sp/800-61/rev-2/final",h:"Read Sections 2 and 3 only — that's the lifecycle and detection phases. This is referenced directly in Security+ and most IR job descriptions."},
+    {l:"TryHackMe — Incident Response and Forensics path",u:"https://tryhackme.com/module/incident-response-and-forensics",h:"Work through the whole module. The Volatility (memory forensics) room is particularly valuable — memory analysis shows up in senior SOC roles."}
+  ]}
+]},
+
+{id:"p7",title:"Cloud & Modern Attack Surface",desc:"Where the market is expanding fastest — cloud security and AI/LLM attack surfaces.",items:[
+  {t:"Shared responsibility model (AWS/Azure/GCP)",n:"What the cloud provider secures vs. what you are responsible for.",res:[
+    {l:"AWS — Shared Responsibility Model",u:"https://aws.amazon.com/compliance/shared-responsibility-model/",h:"Read the diagram carefully. Then ask: if a customer leaves an S3 bucket public, whose fault is it? (Yours.)"},
+    {l:"TryHackMe — Cloud Security Basics room",u:"https://tryhackme.com/room/cloudsecurityintro",h:"20-minute intro. Good to do before the deeper AWS-specific content."}
+  ]},
+  {t:"Cloud misconfiguration patterns",n:"Public buckets, overly permissive IAM, exposed metadata endpoints. Directly ties to OWASP A02:2025.",res:[
+    {l:"flaws.cloud — AWS security challenges (free)",u:"http://flaws.cloud/",h:"Six levels of AWS misconfiguration challenges — each level teaches a real attack pattern used against AWS environments. Open in browser, no account needed."},
+    {l:"CloudGoat — intentionally vulnerable AWS environment",u:"https://github.com/RhinoSecurityLabs/cloudgoat",h:"Requires AWS account + Terraform. Intermediate level — do flaws.cloud first. Follow the README to deploy and attack the environment."}
+  ]},
+  {t:"Software supply chain security",n:"SBOMs, dependency scanning, signing — maps directly to OWASP A03:2025.",res:[
+    {l:"SLSA — Supply chain Levels for Software Artifacts",u:"https://slsa.dev/spec/v1.0/levels",h:"Read the 4 SLSA levels. This framework is increasingly referenced in job descriptions and security architecture discussions."},
+    {l:"Snyk — free dependency vulnerability scanner",u:"https://snyk.io/",h:"Create a free account and scan any of your own GitHub repos. Snyk will show you CVEs in your dependencies — directly demonstrates A03 impact."}
+  ]},
+  {t:"AI/LLM security — prompt injection and model abuse",n:"Fast-growing specialization. OWASP A06:2025 (Insecure Design) now explicitly covers LLM attack surfaces.",res:[
+    {l:"OWASP LLM Top 10 for AI Applications",u:"https://owasp.org/www-project-top-10-for-large-language-model-applications/",h:"Read the full list. LLM01 (Prompt Injection) and LLM06 (Sensitive Information Disclosure) are the most tested in real AI systems."},
+    {l:"Gandalf AI prompt injection game (free)",u:"https://gandalf.lakera.ai/",h:"Open in mobile browser. Try to trick the AI into revealing its secret. This is the most hands-on way to understand prompt injection in 5 minutes."}
+  ]},
+  {t:"Cloud security certification — target for later",n:"Map this after your Security+ — gives you a specialized lane in the fastest-growing sector.",res:[
+    {l:"AWS Certified Security – Specialty exam page",u:"https://aws.amazon.com/certification/certified-security-specialty/",h:"Read the exam guide PDF to understand the scope. This is the gold-standard cloud security cert for AWS environments."},
+    {l:"A Cloud Guru — Cloud Security courses",u:"https://acloudguru.com/",h:"Free tier available. Start with 'AWS Security Fundamentals' to gauge whether AWS is the cloud platform you want to specialize in."}
+  ]}
+]},
+
+{id:"p8",title:"Specialization & Proof of Work",desc:"How to turn these skills into a job.",items:[
+  {t:"Choose your primary lane based on what you enjoyed most",n:"Blue team (SOC), red team (pentest), cloud security, or GRC/compliance — each is a distinct career path with different hiring criteria.",res:[
+    {l:"Cyber Career Pathways — NICE Framework",u:"https://niccs.cisa.gov/workforce-development/cyber-career-pathways",h:"Use the interactive tool to explore role requirements for specific cybersecurity job titles. Filter by 'work role' and read the required KSAs."}
+  ]},
+  {t:"Build a CTF habit — at least 2 rooms/machines per week",n:"Consistent CTF activity is the most visible portfolio signal to hiring managers.",res:[
+    {l:"TryHackMe — all learning paths",u:"https://tryhackme.com/paths",h:"Pick the path matching your lane: SOC Level 1 (blue team), Jr Penetration Tester (red team), or Cloud Security Engineer. Finish one complete path."},
+    {l:"HackTheBox — free tier machines",u:"https://app.hackthebox.com/machines",h:"Filter by 'Easy' difficulty. For each machine you solve: write a walkthrough. These walkthroughs become your portfolio."}
+  ]},
+  {t:"Publish 2–3 lab write-ups as public portfolio pieces",n:"Document your process: what you found, how you found it, how to fix it. This is weighted more heavily than certs by many hiring managers.",res:[
+    {l:"Medium or GitHub Pages — free blog hosting",u:"https://medium.com/",h:"Create a free account. Write each HTB/THM solution as a professional report — problem, steps, findings, remediation. Link these in job applications."},
+    {l:"HackTheBox write-up rules",u:"https://help.hackthebox.com/en/articles/5188925-streaming-writeups-disclosure-policy",h:"Read this first — HTB only allows write-ups for retired machines. TryHackMe has no such restriction."}
+  ]},
+  {t:"Consider eJPT before OSCP as a stepping stone",n:"eJPT (Junior Penetration Tester) is practical, affordable, and good evidence of hands-on skill without the 3-month OSCP prep investment.",res:[
+    {l:"eJPT — INE Security (offensive lane)",u:"https://security.ine.com/certifications/ejpt-certification/",h:"The Starter Pass (free) gives you enough course material to prep. The exam itself is ~$200 and fully practical."},
+    {l:"BTL1 — Blue Team Labs Level 1 (defensive lane)",u:"https://www.securityblue.team/courses/blue-team-labs-level-1",h:"If you're going SOC/blue team, BTL1 is the hands-on equivalent of eJPT. Includes 6 labs covering phishing, SIEM, threat intel, DFIR."}
+  ]},
+  {t:"Map your 12–18 month stretch certification",n:"Don't rush OSCP. It rewards real hands-on hours, not memorization.",res:[
+    {l:"OSCP — OffSec Certified Professional",u:"https://www.offsec.com/courses/pen-200/",h:"Requires 3+ months of dedicated lab time. Enroll only after completing TryHackMe Jr Pentesting path and HTB Easy + Medium machines comfortably."},
+    {l:"GCIH — GIAC Certified Incident Handler (blue team track)",u:"https://www.giac.org/certifications/certified-incident-handler-gcih/",h:"The blue team equivalent of OSCP in terms of employer respect. Covers IR methodology, threat hunting, and malware analysis."}
+  ]},
+  {t:"Target realistic first roles — apply at 60% match",n:"Job postings are wish lists. SOC Analyst Tier 1, Junior Pentester, and GRC Analyst are the three main entry points.",res:[
+    {l:"CyberSeek — Cybersecurity Career Pathway tool",u:"https://www.cyberseek.org/pathway.html",h:"Interactive map of cyber roles, their required certs, and salary ranges. Use it to validate your target role before applying."},
+    {l:"LinkedIn — set a job alert for your target role",u:"https://www.linkedin.com/jobs/",h:"Set alerts for 'SOC Analyst', 'Penetration Tester Junior', or 'GRC Analyst'. Read 20 postings to identify which skills appear most frequently — then close your gaps."}
+  ]},
+  {t:"Join a professional community for mentorship and referrals",n:"Most roles are filled before they hit job boards.",res:[
+    {l:"(ISC)² — free community membership",u:"https://www.isc2.org/candidates/",h:"Join as a Candidate (free while working toward a cert). Access local chapter events where hiring managers actually attend."},
+    {l:"ISACA local chapter directory",u:"https://www.isaca.org/membership/local-chapters",h:"Find your nearest chapter. GRC, audit, and compliance hiring happens heavily through ISACA networks."}
+  ]}
+]}
+];
+
+const SK="cyberpath-v2";
+async function load(){try{const r=await window.storage.get(SK,false);return r?JSON.parse(r.value):{}}catch{return {}}}
+async function save(s){try{await window.storage.set(SK,JSON.stringify(s),false)}catch(e){console.error(e)}}
+let ST={};
+
+function totalItems(){return DATA.reduce((a,p)=>a+p.items.length,0);}
+function doneItems(){return DATA.reduce((a,p)=>a+p.items.filter(it=>ST[p.id+"_"+it.t]).length,0);}
+function donePhases(){return DATA.filter(p=>p.items.every(it=>ST[p.id+"_"+it.t])).length;}
+
+function updateHeader(){
+  const tot=totalItems(),done=doneItems(),pct=Math.round((done/tot)*100);
+  document.getElementById("pctNum").textContent=pct;
+  const ri=Math.min(RANKS.length-1,Math.floor((pct/100)*(RANKS.length-1)));
+  document.getElementById("rankName").textContent=RANKS[ri].n;
+  document.getElementById("rankEmoji").textContent=RANKS[ri].e;
+  document.getElementById("rankSub").textContent=done+" / "+tot+" items — "+RANKS[ri].t;
+  // segs
+  const sb=document.getElementById("segBar");
+  sb.innerHTML="";
+  DATA.forEach(p=>{
+    const dc=p.items.filter(it=>ST[p.id+"_"+it.t]).length;
+    const pct2=Math.round((dc/p.items.length)*100);
+    sb.innerHTML+=`<div class="seg"><div class="seg-fill" style="width:${pct2}%"></div></div>`;
+  });
+}
+
+function render(){
+  const wrap=document.getElementById("phases");
+  wrap.innerHTML="";
+  DATA.forEach((ph)=>{
+    const dc=ph.items.filter(it=>ST[ph.id+"_"+it.t]).length;
+    const isDone=dc===ph.items.length;
+    const isOpen=!!ST["_open_"+ph.id];
+    const el=document.createElement("div");
+    el.className="phase"+(isDone?" done":"")+(isOpen?" open":"");
+
+    let itemsHtml="";
+    ph.items.forEach(it=>{
+      const key=ph.id+"_"+it.t;
+      const ck=!!ST[key];
+      let resHtml="";
+      if(it.res&&it.res.length){
+        const rid="r"+Math.random().toString(36).slice(2,8);
+        resHtml=`<div class="res-toggle" onclick="toggleRes(event,'${rid}')">Resources ▾</div>
+<div class="res-list" id="${rid}">
+${it.res.map(r=>`<div class="res-item">
+  <a class="res-link" href="${r.u}" target="_blank" rel="noopener">${linkSvg} ${r.l}</a>
+  <div class="res-how">How to use: ${r.h}</div>
+</div>`).join("")}
+</div>`;
+      }
+      itemsHtml+=`<div class="item${ck?" ck":""}" data-key="${key.replace(/"/g,"&quot;")}">
+  <div class="item-check${ck?" ck":""}">${checkSvg}</div>
+  <div class="item-body">
+    <div class="item-title">${it.t}</div>
+    ${it.n?`<div class="item-note">${it.n}</div>`:""}
+    ${resHtml}
+  </div>
+</div>`;
+    });
+
+    el.innerHTML=`
+<button class="phase-head" data-pid="${ph.id}">
+  <div class="phase-num">${isDone?checkSvg:(DATA.indexOf(ph)+1)}</div>
+  <div class="phase-titles">
+    <div class="phase-title">${ph.title}</div>
+    <div class="phase-desc">${ph.desc}</div>
+  </div>
+  <div class="phase-badge">${dc}/${ph.items.length}</div>
+  <div class="chev">${chevSvg}</div>
+</button>
+<div class="phase-body">${itemsHtml}</div>`;
+    wrap.appendChild(el);
+
+    if(isOpen){
+      const body=el.querySelector(".phase-body");
+      body.style.maxHeight=body.scrollHeight+"px";
+    }
+  });
+  attachHandlers();
+  updateHeader();
+}
+
+function toggleRes(e,id){
+  e.stopPropagation();
+  const el=document.getElementById(id);
+  if(!el)return;
+  el.classList.toggle("open");
+  const btn=e.currentTarget;
+  btn.textContent=el.classList.contains("open")?"Resources ▴":"Resources ▾";
+  // recompute parent body height
+  const body=btn.closest(".phase-body");
+  if(body)body.style.maxHeight=body.scrollHeight+"px";
+}
+window.toggleRes=toggleRes;
+
+function attachHandlers(){
+  document.querySelectorAll(".phase-head").forEach(h=>{
+    h.onclick=async()=>{
+      const pid=h.getAttribute("data-pid");
+      const k="_open_"+pid;
+      ST[k]=!ST[k];
+      await save(ST);
+      render();
+      // small delay then scroll phase into view
+      const ph=h.closest(".phase");
+      if(ST[k]&&ph) setTimeout(()=>ph.scrollIntoView({behavior:"smooth",block:"nearest"}),350);
+    };
+  });
+  document.querySelectorAll(".item").forEach(it=>{
+    it.onclick=async(e)=>{
+      if(e.target.closest("a")||e.target.closest(".res-toggle")||e.target.closest(".res-list"))return;
+      const k=it.getAttribute("data-key");
+      ST[k]=!ST[k];
+      await save(ST);
+      render();
+    };
+  });
+}
+
+document.getElementById("resetBtn").onclick=async()=>{
+  if(confirm("Reset all progress? This can't be undone.")){ST={};await save(ST);render();}
+};
+
+(async()=>{ST=await load();render();})();
+</script>
+</body>
+</html>
