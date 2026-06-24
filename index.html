@@ -228,7 +228,6 @@ h1{font-family:'Space Grotesk',sans-serif;font-size:26px;font-weight:700;
 </div>
 
 
-
 <!-- RANK CARD -->
 <div class="rank-card">
   <div class="rank-badge" id="rankEmoji">🪖</div>
@@ -496,12 +495,12 @@ const DATA=[
 
 const SK="cyberpath-v2";
 function load(){try{const r=localStorage.getItem(SK);return r?JSON.parse(r):{}}catch{return {}}}
-function save(s){try{localStorage.setItem(SK,JSON.stringify(s))}catch(e){console.error(e)}}
+function save(s){try{localStorage.setItem(SK,JSON.stringify(s));return true}catch(e){console.error(e);return false}}
 let ST={};
 
 function totalItems(){return DATA.reduce((a,p)=>a+p.items.length,0);}
-function doneItems(){return DATA.reduce((a,p)=>a+p.items.filter(it=>ST[p.id+"_"+it.t]).length,0);}
-function donePhases(){return DATA.filter(p=>p.items.every(it=>ST[p.id+"_"+it.t])).length;}
+function doneItems(){return DATA.reduce((a,p)=>a+p.items.filter((_,i)=>ST[p.id+"_"+i]).length,0);}
+function donePhases(){return DATA.filter(p=>p.items.every((_,i)=>ST[p.id+"_"+i])).length;}
 
 function updateHeader(){
   const tot=totalItems(),done=doneItems(),pct=Math.round((done/tot)*100);
@@ -514,7 +513,7 @@ function updateHeader(){
   const sb=document.getElementById("segBar");
   sb.innerHTML="";
   DATA.forEach(p=>{
-    const dc=p.items.filter(it=>ST[p.id+"_"+it.t]).length;
+    const dc=p.items.filter((_,i)=>ST[p.id+"_"+i]).length;
     const pct2=Math.round((dc/p.items.length)*100);
     sb.innerHTML+=`<div class="seg"><div class="seg-fill" style="width:${pct2}%"></div></div>`;
   });
@@ -531,12 +530,13 @@ function render(){
     el.className="phase"+(isDone?" done":"")+(isOpen?" open":"");
 
     let itemsHtml="";
-    ph.items.forEach(it=>{
-      const key=ph.id+"_"+it.t;
+    ph.items.forEach((it, iIdx)=>{
+      // Use numeric index keys — immune to special characters in titles
+      const key=ph.id+"_"+iIdx;
       const ck=!!ST[key];
       let resHtml="";
       if(it.res&&it.res.length){
-        const rid="r"+Math.random().toString(36).slice(2,8);
+        const rid="r_"+ph.id+"_"+iIdx;
         resHtml=`<div class="res-toggle" onclick="toggleRes(event,'${rid}')">Resources ▾</div>
 <div class="res-list" id="${rid}">
 ${it.res.map(r=>`<div class="res-item">
@@ -545,7 +545,7 @@ ${it.res.map(r=>`<div class="res-item">
 </div>`).join("")}
 </div>`;
       }
-      itemsHtml+=`<div class="item${ck?" ck":""}" data-key="${key.replace(/"/g,"&quot;")}">
+      itemsHtml+=`<div class="item${ck?" ck":""}" data-key="${key}">
   <div class="item-check${ck?" ck":""}">${checkSvg}</div>
   <div class="item-body">
     <div class="item-title">${it.t}</div>
@@ -555,9 +555,10 @@ ${it.res.map(r=>`<div class="res-item">
 </div>`;
     });
 
+    const pIdx=DATA.indexOf(ph);
     el.innerHTML=`
 <button class="phase-head" data-pid="${ph.id}">
-  <div class="phase-num">${isDone?checkSvg:(DATA.indexOf(ph)+1)}</div>
+  <div class="phase-num">${isDone?checkSvg:(pIdx+1)}</div>
   <div class="phase-titles">
     <div class="phase-title">${ph.title}</div>
     <div class="phase-desc">${ph.desc}</div>
@@ -577,6 +578,30 @@ ${it.res.map(r=>`<div class="res-item">
   updateHeader();
 }
 
+// ── SAVE TOAST ──
+let toastTimer=null;
+function showToast(ok){
+  let t=document.getElementById("saveToast");
+  if(!t){
+    t=document.createElement("div");
+    t.id="saveToast";
+    t.style.cssText="position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);"+
+      "background:#1d2d3f;border:1px solid #253447;color:#eef2f7;font-family:'JetBrains Mono',monospace;"+
+      "font-size:12px;padding:10px 18px;border-radius:20px;z-index:9999;transition:transform .25s,opacity .25s;opacity:0;";
+    document.body.appendChild(t);
+  }
+  t.textContent=ok?"✓ Progress saved":"⚠ Could not save — check browser settings";
+  t.style.borderColor=ok?"#4dbfae":"#d05f5f";
+  t.style.color=ok?"#4dbfae":"#d05f5f";
+  t.style.transform="translateX(-50%) translateY(0)";
+  t.style.opacity="1";
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>{
+    t.style.transform="translateX(-50%) translateY(80px)";
+    t.style.opacity="0";
+  },1800);
+}
+
 function toggleRes(e,id){
   e.stopPropagation();
   const el=document.getElementById(id);
@@ -584,7 +609,6 @@ function toggleRes(e,id){
   el.classList.toggle("open");
   const btn=e.currentTarget;
   btn.textContent=el.classList.contains("open")?"Resources ▴":"Resources ▾";
-  // recompute parent body height
   const body=btn.closest(".phase-body");
   if(body)body.style.maxHeight=body.scrollHeight+"px";
 }
@@ -596,7 +620,7 @@ function attachHandlers(){
       const pid=h.getAttribute("data-pid");
       const k="_open_"+pid;
       ST[k]=!ST[k];
-      save(ST);
+      const ok=save(ST);
       render();
       const ph=h.closest(".phase");
       if(ST[k]&&ph) setTimeout(()=>ph.scrollIntoView({behavior:"smooth",block:"nearest"}),350);
@@ -607,7 +631,8 @@ function attachHandlers(){
       if(e.target.closest("a")||e.target.closest(".res-toggle")||e.target.closest(".res-list"))return;
       const k=it.getAttribute("data-key");
       ST[k]=!ST[k];
-      save(ST);
+      const ok=save(ST);
+      showToast(ok);
       render();
     };
   });
